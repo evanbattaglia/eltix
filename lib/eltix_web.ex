@@ -24,6 +24,8 @@ defmodule EltixWeb do
       import Plug.Conn
       import EltixWeb.Gettext
       alias EltixWeb.Router.Helpers, as: Routes
+
+      import EltixWeb.ControllerHelpers
     end
   end
 

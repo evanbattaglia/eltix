@@ -5,8 +5,8 @@ defmodule EltixWeb.Router do
     plug :accepts, ["html"]
     plug :fetch_session
     plug :fetch_flash
-    plug :protect_from_forgery
-    plug :put_secure_browser_headers
+    # plug :protect_from_forgery
+    # plug :put_secure_browser_headers # TODO: this adds X-Frame-Options: sameorigin which breaks LTI, but may also provide other useful stuff?
   end
 
   pipeline :api do
@@ -17,6 +17,10 @@ defmodule EltixWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+
+    post "/login_request", LtiController, :login_request
+    post "/launch", LtiController, :launch
+    get "/launch", LtiController, :launch # TOREMOVE
   end
 
   # Other scopes may use custom stacks.
