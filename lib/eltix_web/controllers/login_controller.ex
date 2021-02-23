@@ -1,8 +1,8 @@
-defmodule EltixWeb.LtiController do
+defmodule EltixWeb.LoginController do
   use EltixWeb, :controller
 
   def login_request(conn, params) do
-    render(conn, "login_request.html", uri: login_lms_uri, params: login_params(params))
+    render(conn, "login_request.html", uri: login_lms_uri(), params: login_params(params))
   end
 
 # Canvas sends:
@@ -19,6 +19,8 @@ defmodule EltixWeb.LtiController do
   end
 
   defp login_params(params) do
+    {nonce, state} = Eltix.Nonce.new_nonce_and_state
+
     [
       scope: "openid",
       response_mode: "form_post",
@@ -27,26 +29,13 @@ defmodule EltixWeb.LtiController do
 
       client_id: params["client_id"],
       lti_message_hint: params["lti_message_hint"],
-      login_hint: params["login_hint"], # TODO learn what this is
+      login_hint: params["login_hint"], # TODO learn what this is -- why are there two hints
 
-      state: "something_secret_TODO_figureout", # TODO
-      nonce: "something_secret2", # TODO
+      state: state,
+      nonce: nonce,
 
-      redirect_uri: params["target_link_uri"], # TODO build this from request URL
+      redirect_uri: params["target_link_uri"], # TODO build this from request URL & routes
     ]
   end
-
-  def launch(conn, %{"id_token" => id_token}) do
-    render(conn, "launch.html", id_token: id_token)
-  end
-;
-  def launch(conn, %{"error" => err, "error_description" => err_desc}) do
-    # Could check state here is wanted to...
-    render_error(conn, 400, "Got error from LMS: #{err}: #{err_desc}")
-  end
-
-  def launch(conn, _params), do: render_error(conn, 401, "Missing id_token")
-
-  # TODO: decode JWT, check signature...
 end
 

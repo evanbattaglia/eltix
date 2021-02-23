@@ -12,9 +12,10 @@ defmodule Eltix.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: Eltix.PubSub},
       # Start the Endpoint (http/https)
-      EltixWeb.Endpoint
+      EltixWeb.Endpoint,
       # Start a worker by calling: Eltix.Worker.start_link(arg)
       # {Eltix.Worker, arg}
+      Eltix.NonceStore,
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
