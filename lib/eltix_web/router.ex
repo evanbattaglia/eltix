@@ -18,9 +18,14 @@ defmodule EltixWeb.Router do
 
     get "/", PageController, :index
 
-    post "/login_request", LoginController, :login_request
+    post "/login", LoginController, :login
     post "/launch", LaunchController, :launch
     get "/launch", LaunchController, :launch # TOREMOVE
+  end
+
+  scope "/config", EltixWeb do
+    pipe_through :api
+    get "/", ConfigController, :index
   end
 
   # Other scopes may use custom stacks.

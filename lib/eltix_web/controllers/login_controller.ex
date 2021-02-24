@@ -12,22 +12,13 @@ defmodule EltixWeb.LoginController do
     end
   end
 
-  def login_request(conn, params) do
-    # TODO: verify iss matches (or in launch?)
-    render(conn, "login_request.html",
+  def login(conn, params) do
+    conn
+    |> put_layout("empty.html")
+    |> render("login_request.html",
       uri: Eltix.Platform.authentication_redirect_url,
       params: login_params(conn, params))
   end
-
-# Canvas sends:
-# iss: https://canvas.instructure.com
-# login_hint: 535fa085f22b4655f48cd5a36a9215f64c062838
-# client_id: 10000000000006
-# target_link_uri: http://web.lti-13-test-tool.docker/launch?placement=account_navigation
-# lti_message_hint: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ2ZXJpZmllciI6ImI0ZjA1OWJmYjA4NzY0MTJjZTQ3MDRkN2M4YWRhYjJjMTQ1ZjRiYTNmMWNjNjZiYjc2NTE3OWM3MTg4NGE4OTI4MDM2NzMzMTA5ZmE2NzQxNDUzN2ZjZGQzYjIxYTZhNWI5MTkwYWI0MGQ4MjE5ODBjODEwNGY5OGRmMTgzYjAzIiwiY2FudmFzX2RvbWFpbiI6IndlYi5jYW52YXMtbG1zMi5kb2NrZXIiLCJjb250ZXh0X3R5cGUiOiJBY2NvdW50IiwiY29udGV4dF9pZCI6MTAwMDAwMDAwMDAwMDIsImV4cCI6MTYxNDA2MjE0MX0.8Gy5wNkCE9Vzq5BgYaplLthJPZFzuxA2cgiph2jG4qA
-# canvas_region: not_configured
-  #
-  # TODO put in config
 
   defp login_params(conn, params) do
     {nonce, state} = Eltix.Nonce.new_nonce_and_state

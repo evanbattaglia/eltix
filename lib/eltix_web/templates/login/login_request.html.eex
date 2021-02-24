@@ -1,10 +1,8 @@
-<h1>Login Request!</h2>
 <form action="<%= @uri %>" id="login_form">
   <%= for {k, v} <- @params do %>
     <input type="hidden" name="<%= k %>" value="<%= v %>" />
   <% end %>
 </form>
-
 <script>
   window.onload = () => document.getElementById("login_form").submit();
 </script>
