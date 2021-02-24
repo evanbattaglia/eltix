@@ -1,5 +1,11 @@
 use Mix.Config
 
+# Customize this to your LMS platform installation
+config :eltix, Eltix.Platform,
+  iss: "https://canvas.instructure.com",
+  public_keys_url: "http://web.canvas-lms2.docker/api/lti/security/jwks",
+  authentication_redirect_url: "http://web.canvas-lms2.docker/api/lti/authorize_redirect"
+
 # For development, we disable any cache and enable
 # debugging and code reloading.
 #
@@ -20,14 +26,6 @@ config :eltix, EltixWeb.Endpoint,
       cd: Path.expand("../assets", __DIR__)
     ]
   ]
-
-config :eltix, Eltix.Platform,
-  iss: "https://canvas.instructure.com",
-  public_keys_url: "http://web.canvas-lms2.docker/api/lti/security/jwks",
-  authentication_redirect_url: "http://web.canvas-lms2.docker/api/lti/authorize_redirect"
-  
-
-  
 
 # ## SSL Support
 #

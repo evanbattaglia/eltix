@@ -1,16 +1,26 @@
 # Eltix
 
-To start your Phoenix server:
+Elixir + LTI + Phoenix = Eltix
 
+## Dev installation
+
+  * Copy `config/dev.exs.template` to `config/dev.exs` and adjust LMS (Canvas)
+    URL as needed.
   * Install dependencies with `mix deps.get`
-  * Install Node.js dependencies with `npm install` inside the `assets` directory
-  * Start Phoenix endpoint with `mix phx.server`
+  * Install Node.js dependencies with `npm install` inside the `assets`
+    directory (seems to be done automatically?)
+  * Start Phoenix endpoint with `mix phx.server` or `iex -S mix phx.server` (if
+    you want to use IEx.pry)
+  * Add an LTI Developer Key into Canvas, copying the config from
+    http://localhost:4000/config, and using the `target_link_uri` (e.g.
+    `http://localhost:4000/launch`) as the redirect URIs. Enable the LTI key
+    and add an app using that Client ID.
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+Now you can launch the tool from within Canvas.
+
+## Phoenix stuff
 
 Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
-
-## Learn more
 
   * Official website: https://www.phoenixframework.org/
   * Guides: https://hexdocs.pm/phoenix/overview.html

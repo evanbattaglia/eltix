@@ -1,3 +1,6 @@
+# This should be copied and adapted as necessary from the template.
+/config/dev.exs
+
 # The directory Mix will write compiled artifacts to.
 /_build/
 
