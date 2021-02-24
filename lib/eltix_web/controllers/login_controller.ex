@@ -1,8 +1,22 @@
 defmodule EltixWeb.LoginController do
   use EltixWeb, :controller
 
+  plug :verify_iss
+
+  def verify_iss(conn, _opts) do
+    iss = conn.params["iss"]
+    if iss == Eltix.Platform.iss() do
+      conn
+    else
+      conn |> render_error(401, "Invalid iss: #{iss}") |> halt
+    end
+  end
+
   def login_request(conn, params) do
-    render(conn, "login_request.html", uri: login_lms_uri(), params: login_params(params))
+    # TODO: verify iss matches (or in launch?)
+    render(conn, "login_request.html",
+      uri: Eltix.Platform.authentication_redirect_url,
+      params: login_params(params))
   end
 
 # Canvas sends:
@@ -14,9 +28,6 @@ defmodule EltixWeb.LoginController do
 # canvas_region: not_configured
   #
   # TODO put in config
-  defp login_lms_uri do
-    "http://web.canvas-lms2.docker/api/lti/authorize_redirect"
-  end
 
   defp login_params(params) do
     {nonce, state} = Eltix.Nonce.new_nonce_and_state

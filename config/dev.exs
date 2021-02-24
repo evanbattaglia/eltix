@@ -21,6 +21,14 @@ config :eltix, EltixWeb.Endpoint,
     ]
   ]
 
+config :eltix, Eltix.Platform,
+  iss: "https://canvas.instructure.com",
+  public_keys_url: "http://web.canvas-lms2.docker/api/lti/security/jwks",
+  authentication_redirect_url: "http://web.canvas-lms2.docker/api/lti/authorize_redirect"
+  
+
+  
+
 # ## SSL Support
 #
 # In order to use HTTPS in development, a self-signed

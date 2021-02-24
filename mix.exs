@@ -44,6 +44,7 @@ defmodule Eltix.MixProject do
       {:plug_cowboy, "~> 2.0"},
 
       {:elixir_uuid, "~> 1.2"},
+      {:httpoison, "~> 1.8"},
       {:joken, "~> 2.3"},
     ]
   end
