@@ -8,7 +8,7 @@ defmodule EltixWeb.LaunchController do
   def launch(conn, %{"id_token" => id_token, "state" => state}) do
     with {:ok, jwt} <- Eltix.JWT.verify(id_token),
          :ok <- validate_nonce(jwt, state) do
-      render(conn, "launch.html", id_token: id_token)
+      render(conn, "launch.html", claims: jwt)
     else
       {:error, code, message} -> render_error(conn, code, message)
       {:error, message} -> render_error(conn, 401, message)

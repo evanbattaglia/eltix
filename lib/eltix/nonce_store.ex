@@ -8,6 +8,7 @@ defmodule Eltix.NonceStore do
 
   TODO: should use redis instead of ETS eventually... But this
   was good to learn ETS & GenServer...
+  TODO: need to expire these (set expiry when they are first set)
   """
 
   def start_link(_) do
