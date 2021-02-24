@@ -16,7 +16,7 @@ defmodule EltixWeb.LoginController do
     # TODO: verify iss matches (or in launch?)
     render(conn, "login_request.html",
       uri: Eltix.Platform.authentication_redirect_url,
-      params: login_params(params))
+      params: login_params(conn, params))
   end
 
 # Canvas sends:
@@ -29,7 +29,7 @@ defmodule EltixWeb.LoginController do
   #
   # TODO put in config
 
-  defp login_params(params) do
+  defp login_params(conn, params) do
     {nonce, state} = Eltix.Nonce.new_nonce_and_state
 
     [
@@ -45,8 +45,21 @@ defmodule EltixWeb.LoginController do
       state: state,
       nonce: nonce,
 
-      redirect_uri: params["target_link_uri"], # TODO build this from request URL & routes
+      redirect_uri: redirect_uri(conn, params),
     ]
   end
+
+  defp redirect_uri(conn, params) do
+    URI.to_string %URI{
+      host: conn.host,
+      scheme: Atom.to_string(conn.scheme),
+      port: conn.port,
+      path: Routes.launch_path(EltixWeb.Endpoint, :launch),
+      query: extract_query_string(params["target_link_uri"]),
+    }
+  end
+
+  defp extract_query_string(nil), do: nil
+  defp extract_query_string(uri), do: URI.parse(uri).query
 end
 

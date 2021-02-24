@@ -1,4 +1,13 @@
 <h1>Launch Page</h1>
+<h3>Query params</h3>
+<%= for {key, val} <- @query_params do %>
+  <div class="claim">
+    <span class="claim_key"><%= key %></span>
+    <span class="claim_val"><%= Jason.encode!(val) %></span>
+  </div>
+<% end %>
+<hr>
+<h3>JWT Claims</h3>
 <%= for {key, val} <- @claims do %>
   <div class="claim">
     <span class="claim_key"><%= key %></span>
