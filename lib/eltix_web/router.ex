@@ -6,8 +6,6 @@ defmodule EltixWeb.Router do
     plug :fetch_session
     plug :fetch_live_flash
     plug :put_root_layout, {EltixWeb.LayoutView, :root}
-
-    # plug :protect_from_forgery
     # plug :put_secure_browser_headers # TODO: this adds X-Frame-Options: sameorigin which breaks LTI, but may also provide other useful stuff?
   end
 
@@ -26,6 +24,10 @@ defmodule EltixWeb.Router do
 
     post "/login", LoginController, :login
     post "/launch", LaunchController, :launch
+
+    scope "/" do
+      live "/live", DeepLinkingLive, :index
+    end
   end
 
   # Enables LiveDashboard only for development
