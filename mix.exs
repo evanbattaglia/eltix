@@ -43,6 +43,9 @@ defmodule Eltix.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
 
+      {:phoenix_live_view, "~> 0.15.0"},
+      {:floki, ">= 0.27.0", only: :test},
+
       {:elixir_uuid, "~> 1.2"},
       {:httpoison, "~> 1.8"},
       {:joken, "~> 2.3"},

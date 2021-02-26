@@ -4,7 +4,9 @@ defmodule EltixWeb.Router do
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
-    plug :fetch_flash
+    plug :fetch_live_flash
+    plug :put_root_layout, {EltixWeb.LayoutView, :root}
+
     # plug :protect_from_forgery
     # plug :put_secure_browser_headers # TODO: this adds X-Frame-Options: sameorigin which breaks LTI, but may also provide other useful stuff?
   end

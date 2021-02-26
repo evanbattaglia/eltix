@@ -7,13 +7,15 @@
 # General application configuration
 use Mix.Config
 
+
+
 # Configures the endpoint
 config :eltix, EltixWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "DuDCjbMC61aFB5VGZwMTLxFo33R8/BJ/eckEA0q8V8noa4Z5D/7EIPT4bqrjZK2O",
   render_errors: [view: EltixWeb.ErrorView, accepts: ~w(html json), layout: false],
   pubsub_server: Eltix.PubSub,
-  live_view: [signing_salt: "urx7lyKo"]
+  live_view: [signing_salt: "T4oA+NbXX/KJc3joGxp/vR94MKFQzk50"]
 
 # Configures Elixir's Logger
 config :logger, :console,

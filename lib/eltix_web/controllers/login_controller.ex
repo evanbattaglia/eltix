@@ -13,6 +13,7 @@ defmodule EltixWeb.LoginController do
   @doc "Controller endpoint for the login request"
   def login(conn, params) do
     conn
+    |> put_root_layout(false)
     |> put_layout("empty.html")
     |> render("login_request.html",
       uri: Eltix.Platform.authentication_redirect_url,

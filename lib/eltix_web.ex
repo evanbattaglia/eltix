@@ -24,6 +24,7 @@ defmodule EltixWeb do
       import Plug.Conn
       import EltixWeb.Gettext
       alias EltixWeb.Router.Helpers, as: Routes
+      import Phoenix.LiveView.Controller
 
       import EltixWeb.ControllerHelpers
     end
@@ -50,6 +51,7 @@ defmodule EltixWeb do
 
       import Plug.Conn
       import Phoenix.Controller
+      import Phoenix.LiveView.Router
     end
   end
 
@@ -71,6 +73,25 @@ defmodule EltixWeb do
       import EltixWeb.ErrorHelpers
       import EltixWeb.Gettext
       alias EltixWeb.Router.Helpers, as: Routes
+
+      import Phoenix.LiveView.Helpers
+    end
+  end
+
+  def live_view do
+    quote do
+      use Phoenix.LiveView,
+        layout: {EltixWeb.LayoutView, "live.html"}
+
+      unquote(view_helpers())
+    end
+  end
+
+  def live_component do
+    quote do
+      use Phoenix.LiveComponent
+
+      unquote(view_helpers())
     end
   end
 

@@ -10,9 +10,9 @@ defmodule EltixWeb.Endpoint do
     signing_salt: "Z5kWQnU9"
   ]
 
-  socket "/socket", EltixWeb.UserSocket,
-    websocket: true,
-    longpoll: false
+  #socket "/socket", EltixWeb.UserSocket,
+  #  websocket: true,
+  #  longpoll: false
 
   socket "/live", Phoenix.LiveView.Socket, websocket: [connect_info: [session: @session_options]]
 
