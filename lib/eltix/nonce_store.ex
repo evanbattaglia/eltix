@@ -1,7 +1,10 @@
 defmodule Eltix.NonceStore do
-  use GenServer
-
   @moduledoc """
+  Store for the nonce and state. This is needed because the app generates a
+  nonce and state, sends them to the LMS in the 2nd request of the LTI launch,
+  and expects to receive them back. So in the last launch, we must check the
+  nonce and state against what we have stored.
+
   Wrapped around a GenServer so we can be sure of atomicity
   (this process alone is responsible for the table).
   I guess "protected" does that as well.
@@ -10,6 +13,8 @@ defmodule Eltix.NonceStore do
   was good to learn ETS & GenServer...
   TODO: need to expire these (set expiry when they are first set)
   """
+
+  use GenServer
 
   def start_link(_) do
     GenServer.start_link(__MODULE__, nil, name: __MODULE__)

@@ -14,24 +14,17 @@ defmodule EltixWeb.Router do
   end
 
   scope "/", EltixWeb do
-    pipe_through :browser
-
-    get "/", PageController, :index
-
-    post "/login", LoginController, :login
-    post "/launch", LaunchController, :launch
-    get "/launch", LaunchController, :launch # TOREMOVE
-  end
-
-  scope "/config", EltixWeb do
     pipe_through :api
+
     get "/", ConfigController, :index
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", EltixWeb do
-  #   pipe_through :api
-  # end
+  scope "/", EltixWeb do
+    pipe_through :browser
+
+    post "/login", LoginController, :login
+    post "/launch", LaunchController, :launch
+  end
 
   # Enables LiveDashboard only for development
   #

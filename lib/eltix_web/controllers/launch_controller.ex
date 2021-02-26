@@ -1,39 +1,19 @@
 defmodule EltixWeb.LaunchController do
+  @moduledoc """
+  Perform LTI launch. The last step in the 3-request LTI launch process.
+
+  For authorization, we check that:
+  1) The id_token JWT is signed with the LMS's known key. This ensures that the
+     request really came from the LMS.
+  2) The nonce and state match up with a valid nonce and state that we
+     generated. This ensures the original launch request came thru us.
+  3) The nonce has not already been used. This prevents someone from
+     intercepting the launch and reusing the same id_token to launch again.
+
+  After this we may display our app.
+  """
+
   use EltixWeb, :controller
-
-  # Alternate way, maybe worse (more code):
-  # import Eltix.ResultMonad, only: :nil_to_error
-
-  # plug :handle_error
-  # plug :extract_jwt
-  # plug :verify_nonce
-
-  # def handle_error(conn, _opts) do
-  #   case conn.params do
-  #     %{"error" => err, "error_decription" => desc} -> conn |> render_error(400, "Got error from LMS: #{err}: #{desc}") |> halt()
-  #     _ -> conn
-  #   end
-  # end
-  #
-  # def extract_jwt(conn, _opts) do
-  #   with {:ok, id_token} <- conn.params["id_token"] |> nil_to_error("Missing id_token"),
-  #        {:ok, jwt} <- Eltix.JWT.verify(id_token) do
-  #     conn |> assigns(:jwt, jwt)
-  #   else
-  #     {:error, msg} -> render_error(conn, 401, msg) |> halt()
-  #   end
-  # end
-
-  # def verify_nonce(conn, _opts) do
-  #   with {:ok, state} <- conn.params["state"] |> nil_to_error("Missing state"),
-  #        {:ok, nonce} <- conn.assigns.jwt["nonce"] |> nil_to_error("Missing nonce in JWT")
-  #        :ok <- Eltix.Nonce.use_and_validate_nonce_and_state(nonce, state) do
-  #     conn
-  #   else
-  #     {:error, err} -> render_error(conn, 401, "Error validating nonce/state: #{err}"}
-  #   end
-  # end
-
 
   def launch(conn, %{"error" => err, "error_description" => err_desc}) do
     render_error(conn, 400, "Got error from LMS: #{err}: #{err_desc}")

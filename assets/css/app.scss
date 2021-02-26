@@ -1,5 +1,8 @@
 /* This file is for your main application css. */
-@import "./phoenix.css";
+
+body {
+  font-family: 'Helvetica', 'Arial', sans-serif;
+}
 
 /* Alerts and form errors */
 .alert {
@@ -39,3 +42,17 @@
   .claim_key { color: darkred }
   .claim_val { color: darkgreen }
 }
+
+
+h1#launch-page {
+  display:table;
+  img {
+    float: right;
+    margin-right: 20px;
+  }
+  img, .text {
+    vertical-align:middle;
+    display:table-cell;
+  }
+}
+

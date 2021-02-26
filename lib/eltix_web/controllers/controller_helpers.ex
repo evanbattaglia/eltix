@@ -3,7 +3,7 @@ defmodule EltixWeb.ControllerHelpers do
   import Phoenix.Controller
 
   @doc """
-  Render error for integer code and string msg
+  Render error for integer HTTP status code and string msg
   """
   def render_error(conn, code, msg) do
     conn

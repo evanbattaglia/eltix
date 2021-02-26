@@ -1,4 +1,7 @@
-<h1>Launch Page</h1>
+<h1 id="launch-page">
+<img src="<%= Routes.static_path(@conn, "/images/eltix.png") %>" alt="Eltix Logo"/>
+<span class="text">Launch Page</span>
+</h1>
 <h3>Query params</h3>
 <%= for {key, val} <- @query_params do %>
   <div class="claim">

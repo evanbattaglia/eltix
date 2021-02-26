@@ -1,4 +1,9 @@
 defmodule EltixWeb.ConfigController do
+  @moduledoc """
+  Provides the LTI 1.3 configuration that can be used to add the Developer Key
+  in Canvas.
+  """
+
   use EltixWeb, :controller
 
   def index(conn, _params) do

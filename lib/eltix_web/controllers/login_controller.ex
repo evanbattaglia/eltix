@@ -1,17 +1,16 @@
 defmodule EltixWeb.LoginController do
+  @moduledoc """
+  Controller for the the first step in the LTI launch, the login request. This
+  generates a nonce and 'state' value, and redirects to the LMS with login
+  hints. This ensures that the original request really came from the LMS, as it
+  will check that the hints we send back are valid.
+  """
+
   use EltixWeb, :controller
 
   plug :verify_iss
 
-  def verify_iss(conn, _opts) do
-    iss = conn.params["iss"]
-    if iss == Eltix.Platform.iss() do
-      conn
-    else
-      conn |> render_error(401, "Invalid iss: #{iss}") |> halt
-    end
-  end
-
+  @doc "Controller endpoint for the login request"
   def login(conn, params) do
     conn
     |> put_layout("empty.html")
@@ -40,6 +39,10 @@ defmodule EltixWeb.LoginController do
     ]
   end
 
+  # The launch URL that the LMS will forward the user to in the next step of the
+  # launch process. Instead of just trusting the target_link_uri, we just get the
+  # parameters from there and use the host from the request and the launch URI
+  # from the router.
   defp redirect_uri(conn, params) do
     URI.to_string %URI{
       host: conn.host,
@@ -52,5 +55,14 @@ defmodule EltixWeb.LoginController do
 
   defp extract_query_string(nil), do: nil
   defp extract_query_string(uri), do: URI.parse(uri).query
+
+  def verify_iss(conn, _opts) do
+    iss = conn.params["iss"]
+    if iss == Eltix.Platform.iss() do
+      conn
+    else
+      conn |> render_error(401, "Invalid iss: #{iss}") |> halt
+    end
+  end
 end
 
