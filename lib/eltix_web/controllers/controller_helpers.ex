@@ -10,5 +10,6 @@ defmodule EltixWeb.ControllerHelpers do
     |> put_status(code)
     |> put_view(EltixWeb.ErrorView)
     |> render(:"#{code}", message: msg)
+    |> halt()
   end
 end

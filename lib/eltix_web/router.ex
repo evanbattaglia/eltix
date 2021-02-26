@@ -26,7 +26,12 @@ defmodule EltixWeb.Router do
     post "/launch", LaunchController, :launch
 
     scope "/" do
-      live "/live", DeepLinkingLive, :index
+      pipe_through [DeepLinkingLiveAuthPlug]
+
+      # Need both post & get. Post is for the LTI launch, get is for the
+      # subsequent get requests (socket request?)
+      live "/deep_launch", DeepLinkingLive, :index
+      post "/deep_launch", DeepLaunchController, :index
     end
   end
 

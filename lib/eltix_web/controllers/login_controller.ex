@@ -49,9 +49,18 @@ defmodule EltixWeb.LoginController do
       host: conn.host,
       scheme: Atom.to_string(conn.scheme),
       port: conn.port,
-      path: Routes.launch_path(EltixWeb.Endpoint, :launch),
+      path: launch_path_for_target_link_url(params["target_link_uri"]),
       query: extract_query_string(params["target_link_uri"]),
     }
+  end
+
+  def launch_path_for_target_link_url(url) do
+    deep_launch_path = Routes.deep_linking_path(EltixWeb.Endpoint, :index)
+    if String.contains?(url, deep_launch_path) do
+      deep_launch_path
+    else
+      Routes.launch_path(EltixWeb.Endpoint, :launch)
+    end
   end
 
   defp extract_query_string(nil), do: nil

@@ -2,8 +2,8 @@ defmodule EltixWeb.DeepLinkingLive do
   use EltixWeb, :live_view
 
   @impl true
-  def mount(_params, _session, socket) do
-    {:ok, assign(socket, foo: "hello")}
+  def mount(params, session, socket) do
+    {:ok, assign(socket, foo: "hello", claims: session["claims"])}
   end
 
   @impl true

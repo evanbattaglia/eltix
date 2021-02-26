@@ -1,3 +1,12 @@
 Foo = <%= @foo %>
 
 <button phx-click="foo" phx-value-text="nice job">NICE!</button>
+
+<h3>JWT Claims</h3>
+<%= for {key, val} <- @claims do %>
+  <div class="claim">
+    <span class="claim_key"><%= key %></span>
+    <span class="claim_val"><%= Jason.encode!(val) %></span>
+  </div>
+<% end %>
+
