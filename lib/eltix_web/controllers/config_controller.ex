@@ -7,7 +7,7 @@ defmodule EltixWeb.ConfigController do
   use EltixWeb, :controller
 
   def index(conn, _params) do
-    render(conn, :index, %{app_root_url: app_root_url(conn)})
+    render(conn, :index, %{app_root_url: app_root_url(conn), public_jwk: Eltix.JWT.public_key_jwk})
   end
 
   defp app_root_url(conn) do

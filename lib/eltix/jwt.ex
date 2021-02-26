@@ -3,11 +3,9 @@ defmodule Eltix.JWT do
   Functions to verify JWTs from the platform.
   """
 
-  @doc """
-  Parse and verify a JWT was signed with one of the given signers.
-  """
+  # Parse and verify a JWT was signed with one of the given signers.
   @spec verify(list, String.t()) :: {:ok, map()} | {:error, String.t()}
-  def verify(signers, jwt_string) when is_list(signers) do
+  defp verify_with_signers(signers, jwt_string) when is_list(signers) do
     signers
     |> Stream.map(&(Joken.Signer.verify(jwt_string, &1)))
     |> Enum.find(&match?({:ok, _}, &1))
@@ -15,13 +13,12 @@ defmodule Eltix.JWT do
   end
 
   @doc """
-  Parse and verify a JWT was signed with one of the Platform's known trusted
-  keys. The keys are retrieved from the endpoint in Eltix.Platform.
+  Parse and verify a JWT was signed with one of the the keys, given a raw JWKs
+  string.
   """
-  def verify(jwt_string) do
-    with {:ok, jwks_string} <- Eltix.Platform.public_keys_raw,
-         {:ok, signers} <- create_signers_from_jwks(jwks_string) do
-      verify(signers, jwt_string)
+  def verify(jwks_string, jwt_string) when is_binary(jwks_string) do
+    with {:ok, signers} <- create_signers_from_jwks(jwks_string) do
+      verify_with_signers(signers, jwt_string)
     end
   end
 
@@ -37,6 +34,15 @@ defmodule Eltix.JWT do
       _ -> {:error, "Cannot load keys"}
     end
   end
+
+  def private_key do
+    Application.get_env(:eltix, __MODULE__)[:private_key]
+  end
+
+  def public_key_jwk do
+    {:RSAPrivateKey, :'two-prime', n, e, _d, _p, _q, _e1, _e2, _c, _other} =
+      private_key() |> :public_key.pem_decode |> List.first |> :public_key.pem_entry_decode
+    {_jose_kty_stuff, blob} = {:RSAPublicKey, n, e} |> JOSE.JWK.from_key |> JOSE.JWK.to_map
+    blob |> Map.merge(%{"alg" => "RS256", "use" => "sig", "kid" => "Eltix JWK"})
+  end
 end
-
-
