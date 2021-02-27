@@ -3,13 +3,9 @@ defmodule Eltix.JWT do
   Functions to verify JWTs from the platform.
   """
 
-  # Parse and verify a JWT was signed with one of the given signers.
-  @spec verify(list, String.t()) :: {:ok, map()} | {:error, String.t()}
-  defp verify_with_signers(signers, jwt_string) when is_list(signers) do
-    signers
-    |> Stream.map(&(Joken.Signer.verify(jwt_string, &1)))
-    |> Enum.find(&match?({:ok, _}, &1))
-    || {:error, "Cannot verify or parse JWT"}
+  def build(payload) do
+    signer = Joken.Signer.create("RS256", %{"pem" => private_key()})
+    Eltix.JwtToken.generate_and_sign(payload, signer)
   end
 
   @doc """
@@ -20,6 +16,15 @@ defmodule Eltix.JWT do
     with {:ok, signers} <- create_signers_from_jwks(jwks_string) do
       verify_with_signers(signers, jwt_string)
     end
+  end
+
+  # Parse and verify a JWT was signed with one of the given signers.
+  @spec verify(list, String.t()) :: {:ok, map()} | {:error, String.t()}
+  defp verify_with_signers(signers, jwt_string) when is_list(signers) do
+    signers
+    |> Stream.map(&(Joken.Signer.verify(jwt_string, &1)))
+    |> Enum.find(&match?({:ok, _}, &1))
+    || {:error, "Cannot verify or parse JWT"}
   end
 
   # Create a list of Joken signers from a JWKs JSON string (with object value

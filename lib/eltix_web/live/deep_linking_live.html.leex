@@ -1,6 +1,16 @@
-Response = <%= @response_id_token %>
+<form method="post" action="<%= @deep_link_return_url %>">
+  <p>Return URL=<%= @deep_link_return_url %></p>
+  <p>Response id_token to send: <%= @response_id_token %></p>
+  <input type="submit" value="Send this token" />
+  <input type="hidden" name="JWT" value="<%= @response_id_token %>" />
+</form>
 
-<button phx-click="submit" phx-value-msg="nice job">NICE!</button>
+
+<form phx-submit="submit">
+  <input name="msg" type="text" value="some message"/>
+  <input type="submit" value="Generate token"/>
+</form>
+
 
 <h3>JWT Claims</h3>
 <%= for {key, val} <- @claims do %>

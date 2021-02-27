@@ -5,10 +5,10 @@ defmodule Eltix.DeepLinking do
     request_claims["https://purl.imsglobal.org/spec/lti-dl/claim/deep_linking_settings"]["deep_link_return_url"]
   end
 
-  def build_response_jwt(request_claims, msg) do
+  def build_response_claims(request_claims, msg) do
     %{
-      iss: request_claims["iss"],
-      aud: request_claims["aud"],
+      iss: request_claims["aud"],
+      aud: request_claims["iss"],
       nonce: request_claims["nonce"],
       iat: :os.system_time(:millisecond),
       exp: :os.system_time(:millisecond) + @expiry_time,
