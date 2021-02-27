@@ -1,6 +1,6 @@
-Foo = <%= @foo %>
+Response = <%= @response_id_token %>
 
-<button phx-click="foo" phx-value-text="nice job">NICE!</button>
+<button phx-click="submit" phx-value-msg="nice job">NICE!</button>
 
 <h3>JWT Claims</h3>
 <%= for {key, val} <- @claims do %>
